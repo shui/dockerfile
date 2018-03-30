@@ -1,0 +1,24 @@
+version: '2'
+services:
+  redis-cli:
+    container_name: redis-cli
+    image: goodsmileduck/redis-cli:latest
+    links:
+      - redis-hello
+    networks:
+      - redis
+    command: redis-cli -h redis-hello
+    tty: true
+
+  redis-hello:
+    container_name: redis-hello
+    restart: always
+    image: sameersbn/redis:latest
+    volumes:
+      - ./volume/redis-hello:/var/lib/redis
+    networks:
+      - redis
+
+networks:
+  redis:
+    driver: bridge
